@@ -1,0 +1,109 @@
+domains
+    preference = symbol
+    destination = string
+    budget = symbol
+    activity = symbol
+    weather = symbol
+    season = symbol
+    cost = real
+
+predicates
+    ask_preference(preference)                    
+    recommend_destinations(weather, budget, activity, integer)  
+    destination_info(destination, weather, budget, activity, cost, season)  
+    calculate_cost(destination, integer, cost)    
+    current_season(season)                      
+    go                              
+
+clauses
+go :-
+    write("Welcome!"), nl,
+    write("Let's find the perfect destination for your trip."), nl,
+    ask_preference(weather),
+    readln(WeatherPreference),
+    write("You prefer: "), write(WeatherPreference), nl,
+    ask_preference(budget),
+    readln(BudgetPreference),
+    write("Your budget: "), write(BudgetPreference), nl,
+    ask_preference(activity),
+    readln(ActivityPreference),
+    write("You enjoy: "), write(ActivityPreference), nl,
+    write("How many days will you stay? "), nl,
+    readint(Duration),
+    recommend_destinations(WeatherPreference, BudgetPreference, ActivityPreference, Duration),
+    !.
+
+ask_preference(weather) :-
+    write("What kind of weather do you prefer? (beach/cold/moderate): "), nl.
+ask_preference(budget) :-
+    write("What is your budget? (economy/mid-range/luxury): "), nl.
+ask_preference(activity) :-
+    write("What activities do you enjoy? (adventure/relaxation/sightseeing): "), nl.
+
+recommend_destinations(Weather, Budget, Activity, Duration) :-
+    write("Based on your preferences, here are your options:"), nl,
+    destination_info(Destination, Weather, Budget, Activity, CostPerDay, Season),
+    current_season(CurrentSeason),
+    Season = CurrentSeason,
+    write("Destination: "), write(Destination), nl,
+    write("Cost per day: $"), write(CostPerDay), nl,
+    calculate_cost(Destination, Duration, TotalCost),
+    write("Total cost for "), write(Duration), write(" days: $"), write(TotalCost), nl,
+    fail;
+    write("No more matching destinations."), nl.
+
+calculate_cost(Destination, Duration, TotalCost) :-
+    destination_info(Destination, _, _, _, CostPerDay, _),
+    TotalCost = CostPerDay * Duration.
+
+current_season(summer).
+
+
+destination_info("Maldives", beach, luxury, relaxation, 500, summer).
+destination_info("Hawaii", beach, luxury, adventure, 400, summer).
+destination_info("Bali", beach, midrange, relaxation, 200, summer).
+destination_info("Switzerland", cold, luxury, sightseeing, 550, winter).
+destination_info("Nepal", cold, economy, adventure, 80, winter).
+destination_info("Paris", moderate, luxury, sightseeing, 500, spring).
+destination_info("India", moderate, economy, sightseeing, 50, winter).
+destination_info("Dubai", beach, luxury, sightseeing, 600, autumn).
+destination_info("Kenya", moderate, economy, adventure, 100, spring).
+destination_info("Thailand", moderate, midrange, relaxation, 150, summer).
+destination_info("Iceland", cold, luxury, adventure, 600, winter).
+destination_info("Tokyo", moderate, luxury, sightseeing, 700, spring).
+destination_info("New York", moderate, luxury, adventure, 900, autumn).
+destination_info("Cape Town", beach, midrange, relaxation, 250, summer).
+destination_info("Sydney", beach, luxury, adventure, 500, summer).
+destination_info("Rome", moderate, midrange, sightseeing, 350, spring).
+destination_info("Santorini", beach, midrange, relaxation, 300, summer).
+destination_info("Banff", cold, midrange, adventure, 200, winter).
+destination_info("Moscow", cold, luxury, sightseeing, 450, winter).
+destination_info("Singapore", beach, midrange, sightseeing, 400, autumn).
+destination_info("Vancouver", moderate, luxury, sightseeing, 500, spring).
+destination_info("Rio de Janeiro", beach, economy, relaxation, 150, summer).
+destination_info("Berlin", moderate, midrange, sightseeing, 300, spring).
+destination_info("Buenos Aires", moderate, economy, relaxation, 100, autumn).
+destination_info("Los Angeles", moderate, luxury, adventure, 700, autumn).
+destination_info("Athens", moderate, midrange, sightseeing, 250, summer).
+destination_info("Cairo", moderate, economy, sightseeing, 100, spring).
+destination_info("Florence", moderate, midrange, sightseeing, 300, spring).
+destination_info("Prague", moderate, midrange, sightseeing, 200, autumn).
+destination_info("Venice", moderate, luxury, sightseeing, 600, spring).
+destination_info("Bangkok", moderate, midrange, relaxation, 150, summer).
+destination_info("Manali", cold, economy, adventure, 50, winter).
+destination_info("Goa", beach, economy, relaxation, 80, summer).
+destination_info("Mauritius", beach, luxury, relaxation, 500, summer).
+destination_info("Kuala Lumpur", moderate, economy, sightseeing, 120, autumn).
+destination_info("Hong Kong", moderate, luxury, adventure, 400, spring).
+destination_info("Macau", moderate, luxury, relaxation, 350, autumn).
+destination_info("Seoul", moderate, midrange, sightseeing, 250, spring).
+destination_info("Kyoto", moderate, midrange, sightseeing, 300, spring).
+destination_info("Phuket", beach, midrange, relaxation, 200, summer).
+destination_info("Fiji", beach, luxury, relaxation, 600, summer).
+destination_info("Melbourne", moderate, midrange, sightseeing, 350, autumn).
+destination_info("Oslo", cold, luxury, adventure, 700, winter).
+destination_info("Reykjavik", cold, luxury, sightseeing, 800, winter).
+destination_info("Quebec City", cold, midrange, sightseeing, 300, winter).
+destination_info("Amsterdam", moderate, luxury, sightseeing, 600, spring).
+destination_info("Lisbon", moderate, economy, sightseeing, 150, spring).
+destination_info("Madrid", moderate, midrange, sightseeing, 250, summer).
